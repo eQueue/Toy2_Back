@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import toy2.service.UserService;
 
 @RestController
+@Api(tags="Login API", description = "Login API (로그인 jwt토큰 발급)")
 @RequestMapping("/login")
 public class LoginController {
 
@@ -25,7 +28,7 @@ public class LoginController {
 	
 	Logger log= LoggerFactory.getLogger(LoginController.class);
 
-	
+	@ApiOperation(value="로그인")
 	@PostMapping
 	public Map<String, String> login(@RequestBody Map<String, String> json, HttpServletResponse response) {
 		
@@ -36,21 +39,13 @@ public class LoginController {
 			response.addHeader("X-AUTH-TOKEN", map.get("token"));
 			map.remove("token");
 		}
-		
+
 		return map;
 
 	}
 	
-//	
-//	@PostMapping("/users") //nickname 중복검사
-//	public Map<String,String> checkNickName(@RequestBody Map<String, String> json){
-//		String nickname = json.get("nickname");
-//		Map<String, String> map = userService.checkNickName(nickname);
-//	
-//		return map;
-//	}
-//	
-//	@PostMapping("/users/signup") //회원가입
+	
+//	@PostMapping("/signup") //회원가입
 //	public Map<String,String> signUp(@RequestBody Map<String, String> json){
 //		String nickname = json.get("nickname");
 //		String password = json.get("password");

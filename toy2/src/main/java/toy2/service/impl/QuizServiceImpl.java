@@ -64,10 +64,15 @@ public class QuizServiceImpl implements QuizService{
 
 
 	@Override
-	public int insertUserQuiz(UserQuizDto userQuiz) {
-		int success=userQuizDao.insertUserQuiz(userQuiz);
+	public int insertUserQuiz(UserQuizDto[] userQuizList) {
+		int success=0;
+		
+		if (userQuizDao.checkExistUserQuiz(userQuizList[0].getUserId())==null) { //등록된 퀴즈 없
+			success = userQuizDao.insertUserQuiz(userQuizList);
+		}
 		
 		return success;
+		
 		
 	}
 
@@ -94,9 +99,8 @@ public class QuizServiceImpl implements QuizService{
 
 
 	@Override
-	public Boolean checkExistAnswerer(Long answererId){
-		ScoreDto scoreDto= scoreDao.checkAnswerer(answererId);
-
+	public Boolean checkExistAnswerer(Long examinerId, Long answererId){
+		ScoreDto scoreDto= scoreDao.checkAnswerer(examinerId, answererId);
 		
 		if(scoreDto==null) {//중복 없으면		
 			return true;

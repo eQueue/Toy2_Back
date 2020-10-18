@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import toy2.dao.UserDao;
 import toy2.service.UserService;
 
 @RestController
+@Api(tags="User API", description = "User API (ID중복검사, 회원가입, 랭킹조회)")
 @RequestMapping("/users")
 public class UserController {
     // 스프링 컨테이너가 생성자를 통해 자동으로 주입한다.
@@ -22,10 +26,13 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	@Autowired
+	UserDao userdao;
 	
 	Logger log= LoggerFactory.getLogger(LoginController.class);
-
-	@GetMapping //nickname 중복검사
+	
+	@ApiOperation(value="중복검사")
+	@PostMapping //nickname 중복검사
 	public Map<String,String> checkNickName(@RequestBody Map<String, String> json){
 		String nickname = json.get("nickname");
 		Map<String, String> map = userService.checkNickName(nickname);
@@ -33,6 +40,7 @@ public class UserController {
 		return map;
 	}
 	
+	@ApiOperation(value="회원가입")
 	@PostMapping("/signup") //회원가입
 	public Map<String,String> signUp(@RequestBody Map<String, String> json){
 		String nickname = json.get("nickname");
@@ -42,9 +50,11 @@ public class UserController {
 		return map;
 	}
 	
+	@ApiOperation(value="랭킹조회")
 	@PostMapping(path="/rank")//랭킹 조회
 	   public Map<String, Object> searchRanking(@RequestBody Map<String, String> json){
-	      Long num = Long.valueOf(json.get("userId"));
+		  String nickname = json.get("nickname");
+		  Long num = userdao.findByNickName(nickname).getUserId();
 	      Map<String, Object> map = new HashMap<String, Object>();
 	      map.put("ranking", userService.searchUserRank(num));
 	      return map;

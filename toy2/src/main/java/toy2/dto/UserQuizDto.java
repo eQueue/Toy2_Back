@@ -1,39 +1,39 @@
 package toy2.dto;
 
 public class UserQuizDto {
-	private int quizID;
-	private long userID;
+	private Long quizId;
+	private Long userId;
 	private int answer;
 	
 	
 	
 	@Override
 	public String toString() {
-		return "UserQuizDto [quizID=" + quizID + ", userID=" + userID + ", answer=" + answer + "]";
+		return "UserQuizDto [quizID=" + quizId + ", userID=" + userId + ", answer=" + answer + "]";
 	}
 
 
 
-	public int getQuizID() {
-		return quizID;
+	public Long getQuizId() {
+		return quizId;
 	}
 
 
 
-	public void setQuizID(int quizID) {
-		this.quizID = quizID;
+	public void setQuizId(Long quizId) {
+		this.quizId = quizId;
 	}
 
 
 
-	public long getUserID() {
-		return userID;
+	public long getUserId() {
+		return userId;
 	}
 
 
 
-	public void setUserID(long userID) {
-		this.userID = userID;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 

@@ -44,9 +44,10 @@ public class ScoreDao {
 			return jdbc.update(QuizSqls.INSERT_SCORE, params);
     }
     
-    public ScoreDto checkAnswerer(Long answererId) {
+    public ScoreDto checkAnswerer(Long examinerId, Long answererId) {
 		try {
 			Map<String, Object> params = new HashMap<>();
+			params.put("examiner", examinerId);
 			params.put("answerer", answererId);
 			return jdbc.queryForObject(QuizSqls.CHECK_ANSWERER, params, rowMapper);
 		}catch(EmptyResultDataAccessException e) {//해당 조건이 없을경우
